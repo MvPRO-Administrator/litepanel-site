@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LitePanel - Панель управления игровыми серверами</title>
+	<meta name="description" content="Панель управления игровыми серверами LitePanel">
+	<meta name="keywords" content="панель управления, управление серверами, игровые сервера, game control panel, controlpanel">
+	<link href="./css/bootstrap.css" rel="stylesheet">
+	<link href="./css/style.css" rel="stylesheet">
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container navbar-wrapper">
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<a class="brand" href="./index.html">LitePanel</a>
+		
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li><a href="./index.html">О LitePanel</a></li>
+						<li><a href="./download.html">Загрузка</a></li>
+						<li><a href="./screenshots.html">Скриншоты</a></li>
+						<li class="active"><a href="./help.html">Помощь</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="content">
+		<div class="container">
+			<h1>Содержание</h1>
+			<ul>
+				<li><a href="./help.html#install">Установка LitePanel</a>
+					<ol>
+						<li><a href="./help.html#installWebSide">Установка веб-части</a>
+						<li><a href="./help.html#installServerSide">Установка серверной части</a>
+					</ol>
+				</li>
+				<li><a href="./help.html#addGames">Добавление игр</a>
+					<ol>
+						<li><a href="./help.html#addGamesBuild">Сборка игрового сервера</a>
+						<li><a href="./help.html#addGamesPack">Упаковка игрового сервера</a>
+						<li><a href="./help.html#addGamesConfigure">Конфигурирование</a>
+					</ol>
+				</li>
+				<li><a href="./help.html#robokassa">Настройка платежной системы ROBOKASSA</a>
+					<ol>
+						<li><a href="./help.html#robokassaRemote">Настройка ROBOKASSA</a>
+						<li><a href="./help.html#robokassaLocal">Настройка LitePanel</a>
+					</ol>
+				</li>
+			</ul>
+			<hr>
+		</div>
+		<!-- Install -->
+		<div class="container" id="install">
+			<h1>Установка LitePanel</h1>
+			Панель управления устанавливается в 2 этапа:
+			<ul>
+				<li><a href="#installWebSide">Установка веб-части</a></li>
+				<li><a href="#installServerSide">Установка серверной части</a></li>
+			</ul>
+			<hr>
+		</div>
+		<!-- Install web-side -->
+		<div class="container" id="installWebSide">
+			<h3>Установка веб-части</h3>
+			Для работы веб-части требуются:
+			<ul>
+				<li><b>Apache 2</b> <i>с модулем mod_rewrite</i></li>
+				<li><b>MySQL Server 5+</b></li>
+				<li><b>PHP 5.3+</b> <i>с модулями php_mysql, php_gd, php_ssh2</i></li>
+			</ul>
+
+			Для удобной работы с базой данных рекомендуем использовать phpMyAdmin.
+			<ol>
+				<li>Загрузите архив с веб-частью.</li>
+				<li>Распакуйте архив в корневую папку веб-сервера. Обратите внимание на то, что веб-часть ПУ должна находится в корне (под)домена.
+				<div class="alert">Обратите внимание на то, что панель управления должна располагаться в корне домена или поддомена. То есть: example.com, cp.example.com, panel.example.com - правильно; example.com/panel - неправильно.</div></li>
+				<li>Создайте пользователя и базу данных в СУБД MySQL.</li>
+				<li>Импортируйте содержимое базы данных из файла dump.sql.</li>
+				<li>Переименуйте файл конфигурации "application/config.default.php" в "application/config.php".</li>
+				<li>Заполните файл конфигурации "application/config.php".</li>
+				<li>Зарегистрируйте аккаунт в LitePanel. Для установки прав администратора измените параметр "user_accesslevel" в таблице "users".</li>
+			</ol>
+			Для удаления неоплаченых серверов, сбора статистики и т.д. необходимо добавить в cron запуск следующих скриптов:
+			<table class="table table-bordered">
+			<tr>
+				<th>URL</th>
+				<th>Рекомендуемый период</th>
+			</tr>
+			<tr>
+				<td>http://example.com/main/cron/index?token=<i>[TOKEN]</i></td>
+				<td>1 раз в сутки</td>
+			</tr>
+			<tr>
+				<td>http://example.com/main/cron/updateSystemLoad?token=<i>[TOKEN]</i></td>
+				<td>1 раз в 5 минут</td>
+			</tr>
+			<tr>
+				<td>http://example.com/main/cron/updateStats?token=<i>[TOKEN]</i></td>
+				<td>1 раз в час</td>
+			</tr>
+			<tr class="warning"><td colspan="2"><b>[TOKEN]</b> - токен, указанный в файле конфигурации веб-части (application/config.php).</td></tr>
+			</table>
+			<hr>
+		</div>
+		<!-- /Install web-side -->
+		<!-- Install server-side -->
+		<div class="container" id="installServerSide">
+			<h3>Установка серверной части</h3>
+			Для работы серверной части требуются:
+			<ul>
+				<li><b>Debian 6+</b></li>
+				<li><b>SSH2 Server</b> (Для установки: <code>apt-get install openssh-server</code>)</li>
+				<li><b>Python 3</b> (Для установки: <code>apt-get install python3</code>)</li>
+				<li><b>Screen</b> (Для установки: <code>apt-get install screen</code>)</li>
+			</ul>
+
+			Для стабильной работы игровых серверов на 64-битных системах рекомендуется установить 32-битные библиотеки (Для установки: <code>apt-get install ia32-libs</code>).
+			<ol>
+				<li>Загрузите архив с серверной частью.</li>
+				<li>Распакуйте архив в папку "/home".</li>
+				<li>На папку "/home/cp" установите права доступа 700. (Для установки: <code>chmod 700 /home/cp</code>)</li>
+				<li>На файл "/home/cp/gameservers.py" установите права доступа 700. (Для установки: <code>chmod 700 /home/cp/gameservers.py</code>)</li>
+				<li>Загрузите архивы с содержимым игровых серверов и правильно настроенными конфигурационными файлами сервера.</li>
+				<li>Загрузите архивы с игровыми серверами и проверьте файлы конфигурации.</li>
+			</ol>
+			<hr>
+		</div>
+		<!-- /Install server-side -->
+		<!-- /Install -->
+		<!-- Add games -->
+		<div class="container" id="addGames">
+			<h1>Добавление игр</h1>
+			Игры добавляются в 3 этапа:
+			<ul>
+				<li><a href="#addGamesBuild">Сборка игрового сервера</a></li>
+				<li><a href="#addGamesPack">Упаковка игрового сервера</a></li>
+				<li><a href="#addGamesConfigure">Конфигурирование</a></li>
+			</ul>
+			<hr>
+		</div>
+		<!-- Add games (Build) -->
+		<div class="container" id="addGamesBuild">
+			<h3>Сборка игрового сервера</h3>
+			После создания файла конфигурации нам необходимо загрузить сам игровой сервер и отредактировать его файлы конфигурации. В качестве примера возьмем файл конфигурации сервера San Andreas Multiplayer:
+			<pre><code>echo Executing Server Config...
+lanmode 0
+rcon_password changeme
+maxplayers 50
+port 7777
+hostname SA-MP 0.3 Server
+gamemode0 grandlarc 1
+filterscripts base gl_actions gl_property gl_realtime
+announce 0
+query 1
+weburl www.sa-mp.com
+maxnpc 0
+onfoot_rate 40
+incar_rate 40
+weapon_rate 40
+stream_distance 300.0
+stream_rate 1000</code></pre>
+
+			В данном случае нам нужно добавить параметр <code>bind</code> (параметр отвечает за используемый IP адрес) и изменить параметр <code>password</code> (сервер с паролем "changeme" не запустится). Значение параметров, отвечающих за кол-во слотов, порты и IP адреса, значение не имеет - при запуске сервера им присвоится необходимое значение.
+			<pre><code>echo Executing Server Config...
+lanmode 0
+rcon_password 123456
+maxplayers 0
+bind 0.0.0.0
+port 0
+hostname SA-MP 0.3 Server
+gamemode0 grandlarc 1
+filterscripts base gl_actions gl_property gl_realtime
+announce 0
+query 1
+weburl www.sa-mp.com
+maxnpc 0
+onfoot_rate 40
+incar_rate 40
+weapon_rate 40
+stream_distance 300.0
+stream_rate 1000</code></pre>
+			<hr>
+		</div>
+		<!-- /Add games (Build) -->
+		<!-- Add games (Pack) -->
+		<div class="container" id="addGamesPack">
+			<h3>Упаковка игрового сервера</h3>
+			После завершения сборки сервера содержимое сервера необходимо упаковать в архив tar. Для упаковки используйте команду <code>tar cf samp.tar /папка/*</code>. После упаковки содержимого сервера в архив необходимо поместить архив в папку "/home/cp/gameservers/files/".
+			<hr>
+		</div>
+		<!-- /Add games (Pack) -->
+		<!-- Add games (Configure) -->
+		<div class="container" id="addGamesConfigure">
+			<h3>Конфигурирование</h3>
+			Файлы конфигурации находятся в директории "/home/cp/gameservers/configs/". Они отвечают за автоматическую конфигурацию сервера, проверку существующих файлов конфигуации и исполняемых файлов. Файлы конфигурации написаны в формате JSON. Содержимое файла конфигурации:
+			<h4>ExecCmd</h4>
+			Строка запуска сервера
+			В строке запуска можно использовать следующие теги:
+
+			<ul>
+				<li><code>@ip@</code> - IP сервера</li>
+				<li><code>@port@</code> - порт №1</li>
+				<li><code>@port2@</code> - порт №2 (port+1)</li>
+				<li><code>@port3@</code> - порт №3 (port+1000)</li>
+				<li><code>@slots@</code> - слоты</li>
+			</ul>
+			<h4>Archives</h4>
+			Список архивов с файлами сервера
+
+			<h4>Files</h4>
+			Проверяемые файлы сервера
+			<ul>
+				<li>File - имя файла</li>
+				<li>Hashes - допустимые md5-хэши файла</li>
+				<li>Required - обязательно ли наличие файла (1 - да, 0 - нет)</li>
+			</ul>
+
+			<h4>Configs</h4>
+			Файлы конфигурации сервера
+			<ul>
+				<li>File - имя файла</li>
+				<li>ExecPattern - регулярное выражение получающее имена подключаемых конфигов</li>
+				<li>Required - обязательно ли наличие файла (1 - да, 0 - нет)</li>
+				<li>Values - проверяемые параметры</li>
+			</ul>
+
+			<h4>Configs &rarr; Values</h4>
+			<ul>
+				<li>Pattern</li>
+				<li>Value - значение параметра (<code>__ip__</code>, <code>__port__</code>, <code>__port2__</code>, <code>__port3__</code>, <code>__slots__</code> или любое другое значение)</li>
+				<li>Required - обязательно ли наличие параметра (1 - да, 0 - нет)</li>
+			</ul>
+			<hr>
+		</div>
+		<!-- /Add games (Configure) -->
+		<!-- /Add games -->
+		<!-- RoboKassa -->
+		<div class="container" id="robokassa">
+			<h1>Настройка платежной системы ROBOKASSA</h1>
+			Прием платежей настраивается в 2 этапа:
+			<ul>
+				<li><a href="#robokassaRemote">Настройка ROBOKASSA</a></li>
+				<li><a href="#robokassaLocal">Настройка LitePanel</a></li>
+			</ul>
+			<hr>
+		</div>
+		<!-- RoboKassa (Remote) -->
+		<div class="container" id="robokassaRemote">
+			<h3>Настройка ROBOKASSA</h3>
+			<ol>
+				<li>Зайдите в личный кабинет ROBOKASSA.</li>
+				<li>Перейдите во вкладку “Администрирование”.</li>
+				<li>Заполните поля так, как это сделано на картинке  ниже. “http://cp.example.com/” замените на адрес панели управления, он должен совпадать с URL, указанным во вкладке “Регистрационные данные” в поле “Адрес главной страницы вашего сайта”.</li>
+				<li>В поля <b>Пароль #1</b> и <b>Пароль #2</b> введите два надежных пароля.</li>
+			</ol>
+			<img src="./img/help/robokassa/robokassa-configure.png" class="img-polaroid">
+			<hr>
+		</div>
+		<!-- /RoboKassa (Remote) -->
+		<!-- RoboKassa (Local) -->
+		<div class="container" id="robokassaLocal">
+			<h3>Настройка LitePanel</h3>
+			В файле конфигурации “/application/config.php” значения следующих параметров:
+			<ol>
+				<li><b>rk_login</b> – Логин в системе ROBOKASSA</li>
+				<li><b>rk_password1</b> – Пароль #1 указанный при настройке ROBOKASSA</li>
+				<li><b>rk_password2</b> – Пароль #2 указанный при настройке ROBOKASSA</li>
+			</ol>
+			Документацию по работе основного сервера ROBOKASSA можете узнать <a href="http://www.robokassa.ru/ru/Doc/Ru/Interface.aspx">здесь</a>, а документацию по тестовому серверу <a href="http://www.robokassa.ru/ru/DocTest/Ru/Interface.aspx">здесь</a>.
+			<hr>
+		</div>
+		<!-- /RoboKassa (Local) -->
+		<!-- /RoboKassa -->
+	</div>
+	<div class="container">
+		<footer>
+			<p class="pull-right">Developed by <a href="mailto:quickdevel@gmail.com">QuickDevel</a></p>
+			<p>&copy; 2012-2013 LitePanel</p>
+		</footer>
+	</div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>LitePanel - Панель управления игровыми серверами</title>
+	<meta name="description" content="Панель управления игровыми серверами LitePanel">
+	<meta name="keywords" content="панель управления, управление серверами, игровые сервера, game control panel, controlpanel">
+	<link href="./css/bootstrap.css" rel="stylesheet">
+	<link href="./css/style.css" rel="stylesheet">
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container navbar-wrapper2">
+		<div class="navbar navbar-inverse">
+			<div class="navbar-inner">
+				<a class="brand" href="./index.html">LitePanel</a>
+		
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class="active"><a href="./index.html">О LitePanel</a></li>
+						<li><a href="./download.html">Загрузка</a></li>
+						<li><a href="./screenshots.html">Скриншоты</a></li>
+						<li><a href="./help.html">Помощь</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="headCarousel" class="carousel slide">
+		<div class="carousel-inner">
+			<div class="item active">
+				<img src="./img/slide-01.jpg" alt="Удобство">
+				<div class="container">
+					<div class="carousel-caption">
+						<h1>Удобство</h1>
+						<p class="lead">LitePanel удобна в использовании!</p>
+						<a class="btn btn-large btn-primary" href="#about">Подробнее...</a>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<img src="./img/slide-02.jpg" alt="OpenSource">
+				<div class="container">
+					<div class="carousel-caption">
+						<h1>OpenSource</h1>
+						<p class="lead">LitePanel является OpenSource продуктом!</p>
+						<a class="btn btn-large btn-primary" href="#about">Подробнее...</a>
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<img src="./img/slide-03.jpg" alt="Автоматизация">
+				<div class="container">
+					<div class="carousel-caption">
+						<h1>Автоматизация</h1>
+						<p class="lead">Все действия в LitePanel выполняются автоматически!</p>
+						<a class="btn btn-large btn-primary" href="#about">Подробнее...</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a class="left carousel-control" href="#headCarousel" data-slide="prev">&lsaquo;</a>
+		<a class="right carousel-control" href="#headCarousel" data-slide="next">&rsaquo;</a>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('#headCarousel').carousel()
+		});
+	</script>
+	<div id="content">
+		<!-- About LP -->
+		<div class="container" id="about">
+			<h1>О LitePanel</h1>
+			<div style="overflow: hidden;">
+				<img class="pull-left img-circle feature-image" src="./img/img1.png">
+				<h2>Удобство</h2>
+				<p class="lead">Благодаря интуинтивно-понятному интерфейсу <b>LitePanel</b> удобна в использовании. Управление серверами осуществляется несколькими кликами мыши.</p>
+			</div>
+			<div style="overflow: hidden;">
+				<img class="pull-right img-circle feature-image" src="./img/img3.png">
+				<h2>OpenSource</h2>
+				<p class="lead">Бесплатный открытый код <b>LitePanel</b> позволит Вам изменить ее под свои нужды и желания Ваших клиентов. Ничто не мешает Вам реализовать свои идеи.</p>
+			</div>
+			<div style="overflow: hidden;">
+				<img class="pull-left img-circle feature-image" src="./img/img2.png">
+				<h2>Автоматизация</h2>
+				<p class="lead">Все этапы от заказа и оплаты до управления сервером и получения поддержки в <b>LitePanel</b> автоматизированы. Оплата производится автоматически, через платежную систему <a href="http://robokassa.ru/">ROBOKASSA</a>.</p>
+			</div>
+			<hr>
+		</div>
+		<div class="container" id="requirements">
+			<h1>Требования</h1>
+			<div class="row">
+				<div class="span6">
+					<h3>Web-часть</h3>
+					<ul>
+						<li><b>Apache 2</b> <i>с модулем mod_rewrite</i></li>
+						<li><b>MySQL Server 5+</b></li>
+						<li><b>PHP 5.3+</b> <i>с модулями php_mysql, php_gd, php_ssh2</i></li>
+					</ul>
+				</div>
+				<div class="span6">
+					<h3>Серверная часть</h3>
+					<ul>
+						<li><b>Debian 6+</b> <i>или система на его основе</i></li>
+						<li><b>SSH2 Server</b></li>
+						<li><b>Python 3</b></b></li>
+						<li><b>Screen</b></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+		</div>
+		<!-- /About LP -->
+	</div>
+	<div class="container">
+		<footer>
+			<p class="pull-right">Developed by <a href="mailto:quickdevel@gmail.com">QuickDevel</a></p>
+			<p>&copy; 2012-2013 LitePanel</p>
+		</footer>
+	</div>
+</body>
+</html>
